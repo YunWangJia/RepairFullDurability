@@ -1,0 +1,4 @@
+将文件解压放到游戏目录：Duckov_Data\Mods
+文件夹下
+
+如果没有Mods文件夹，自己创建即可，然后将解压的模组文件夹（RepairFullDurability）放入其中即可

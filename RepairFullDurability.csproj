@@ -1,0 +1,348 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+    <!-- This should be the folder that contains Duckov.exe -->
+    <!-- 下面这行里填写你的鸭科夫安装路径，这样编译器就能找到相关的dll文件 -->
+    <DuckovPath>G:\SteamLibrary\steamapps\common\Escape from Duckov</DuckovPath>
+  </PropertyGroup>
+  <ItemGroup>
+        <Reference Include="$(DuckovPath)\Duckov_Data\Managed\TeamSoda.*" />
+        <Reference Include="$(DuckovPath)\Duckov_Data\Managed\ItemStatsSystem.dll">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="0Harmony">
+          <HintPath>0Harmony.dll</HintPath>
+          <EmbedInteropTypes>False</EmbedInteropTypes>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="SodaLocalization">
+          <HintPath>G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\SodaLocalization.dll</HintPath>
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="$(DuckovPath)\Duckov_Data\Managed\Unity*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\TeamSoda.Duckov.Core.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\TeamSoda.Duckov.Utilities.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\TeamSoda.MiniLocalizor.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.2D.Tilemap.Extras.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.Addressables.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.Burst.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.Burst.Unsafe.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.Collections.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.Collections.LowLevel.ILSupport.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.InputSystem.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.InputSystem.ForUI.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.Mathematics.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.MemoryProfiler.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.Polybrush.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.ProBuilder.Csg.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.ProBuilder.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.ProBuilder.KdTree.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.ProBuilder.Poly2Tri.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.ProBuilder.Stl.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.Profiling.Core.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.Recorder.Base.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.Recorder.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.RenderPipeline.Universal.ShaderLibrary.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.RenderPipelines.Core.Runtime.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.RenderPipelines.Core.ShaderLibrary.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.RenderPipelines.Universal.Config.Runtime.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.RenderPipelines.Universal.Runtime.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.RenderPipelines.Universal.Shaders.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.ResourceManager.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.ScriptableBuildPipeline.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.Splines.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.TextMeshPro.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.Timeline.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.VisualScripting.Antlr3.Runtime.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.VisualScripting.Core.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.VisualScripting.Flow.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\Unity.VisualScripting.State.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.AccessibilityModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.AIModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.AndroidJNIModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.AnimationModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.ARModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.AssetBundleModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.AudioModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.ClothModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.ClusterInputModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.ClusterRendererModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.ContentLoadModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.CoreModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.CrashReportingModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.DirectorModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.DSPGraphModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.GameCenterModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.GIModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.GridModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.HotReloadModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.ImageConversionModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.IMGUIModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.InputLegacyModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.InputModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.JSONSerializeModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.LocalizationModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.NVIDIAModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.ParticleSystemModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.PerformanceReportingModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.Physics2DModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.PhysicsModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.ProfilerModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.PropertiesModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.ScreenCaptureModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.SharedInternalsModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.SpriteMaskModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.SpriteShapeModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.StreamingModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.SubstanceModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.SubsystemsModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.TerrainModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.TerrainPhysicsModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.TextCoreFontEngineModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.TextCoreTextEngineModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.TextRenderingModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.TilemapModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.TLSModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.UI.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.UIElementsModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.UIModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.UmbraModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.UnityAnalyticsCommonModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.UnityAnalyticsModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.UnityConnectModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.UnityCurlModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.UnityTestProtocolModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.UnityWebRequestAssetBundleModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.UnityWebRequestModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.UnityWebRequestTextureModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.VehiclesModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.VFXModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.VideoModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.VirtualTexturingModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.VRModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.WindModule.dll">
+      <Private>False</Private>
+    </Reference>
+    <Reference Update="G:\SteamLibrary\steamapps\common\Escape from Duckov\Duckov_Data\Managed\UnityEngine.XRModule.dll">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup> 
+</Project>
