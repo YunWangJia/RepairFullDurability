@@ -20,8 +20,8 @@ namespace RepairFullDurability
 
         private static string TAG = $"ModConfig_v{ModConfigVersion}";
 
-        private static Type modBehaviourType;
-        private static Type optionsManagerType;
+        private static Type? modBehaviourType;
+        private static Type? optionsManagerType;
         public static bool isInitialized = false;
         private static bool versionChecked = false;
         private static bool isVersionCompatible = false;

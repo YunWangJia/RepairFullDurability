@@ -15,6 +15,7 @@ using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using SodaCraft.Localizations;
 using static CraftView;
+using System.Collections.Generic;
 
 namespace RepairFullDurability
 {
@@ -22,10 +23,23 @@ namespace RepairFullDurability
     public class ModBehaviour : Duckov.Modding.ModBehaviour
     {
         //2025.10.28，更新为1.1版本，加入了ModConfigAPI的界面兼容，玩家现在可以在ModConfig的设置界面直接设置过滤效果。
+        //2025.10.29
+        //### 1.2版本：
+        //- 优化了可能存在的兼容性问题。
+        //- 修复了未重启游戏的情况下，取消本mod导致其他mod一同失效的问题。
+        //- 补充了修复部分的价格差。
+        //- 显示改为“-0”，无法改为“+”，因为“-”是内部写死的。
+
         public static string MOD_NAME_ch = "维修恢复全耐久";
         // 保存Harmony实例，用于后续撤销补丁
         private Harmony? _harmony;
 
+        [System.Serializable]
+        public class RFDConfig//必须使用类，因为储存的时候，是直接将类转为json
+        {
+            // 是否显过滤装备
+            public bool IsFilteringEquipment = false;
+        }
         static RFDConfig config = new RFDConfig();
 
         private static string persistentConfigPath => Path.Combine(Application.streamingAssetsPath, "RFDConfig.txt");
@@ -46,11 +60,13 @@ namespace RepairFullDurability
                 SetModConfig();
                 IniContrast();
             }
-
             
+
             // 初始化Harmony实例并保存
             _harmony = new Harmony("RepairFullDurability");
-            _harmony.PatchAll(); // 应用补丁
+            //_harmony.PatchAll(); // 应用补丁
+            //使用无参数函数，可能会扫描整个游戏，造成兼容性问题。
+            _harmony.PatchAll(Assembly.GetExecutingAssembly()); //限制扫描范围为本mod
         }
         private void OnModActivated(ModInfo info, Duckov.Modding.ModBehaviour behaviour)
         {
@@ -78,40 +94,14 @@ namespace RepairFullDurability
         {
             if (_harmony != null)
             {
-                _harmony.UnpatchAll(); // 撤销该Harmony实例的所有补丁
+                _harmony.UnpatchAll("RepairFullDurability"); // 撤销指定mod实例的所有补丁
                 _harmony = null; // 释放引用
             }
             ModManager.OnModActivated -= OnModActivated;
             ModConfigAPI.SafeRemoveOnOptionsChangedDelegate(OnModConfigOptionsChanged);
         }
-    
 
-        [HarmonyPatch(typeof(ItemRepairView), "Repair", (new Type[] { typeof(Item), typeof(bool)}))]
-        public static class RepairFullDurability
-        {
-            [HarmonyPostfix]
-            public static void Postfix(Item item, bool prepaied)
-            {
-                // 直接读取配置文件中的值（实时生效）
-                bool isOutfit = RepairConfig.IsOutfit;
-                
-                if (isOutfit)
-                {
-                    if (item.Tags.Contains("Weapon"))
-                    {
-                        item.DurabilityLoss = 0;
-                        item.Durability = item.MaxDurability;
-                    }
-                }
-                else
-                {
-                    item.DurabilityLoss = 0;
-                    item.Durability = item.MaxDurability;
-                }
-                
-            }
-        }
-
+        
 
         private void SetModConfig()
         {
@@ -184,12 +174,5 @@ namespace RepairFullDurability
 
     }
 
-
-    [System.Serializable]
-    public class RFDConfig//必须使用类，因为储存的时候，是直接将类转为json
-    {
-        // 是否显过滤装备
-        public bool IsFilteringEquipment = false;
-    }
 
 }
