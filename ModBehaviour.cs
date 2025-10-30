@@ -22,14 +22,7 @@ namespace RepairFullDurability
     //该mod部分代码由AI生成
     public class ModBehaviour : Duckov.Modding.ModBehaviour
     {
-        //2025.10.28，更新为1.1版本，加入了ModConfigAPI的界面兼容，玩家现在可以在ModConfig的设置界面直接设置过滤效果。
-        //2025.10.29
-        //### 1.2版本：
-        //- 优化了可能存在的兼容性问题。
-        //- 修复了未重启游戏的情况下，取消本mod导致其他mod一同失效的问题。
-        //- 补充了修复部分的价格差。
-        //- 显示改为“-0”，无法改为“+”，因为“-”是内部写死的。
-
+        
         public static string MOD_NAME_ch = "维修恢复全耐久";
         // 保存Harmony实例，用于后续撤销补丁
         private Harmony? _harmony;

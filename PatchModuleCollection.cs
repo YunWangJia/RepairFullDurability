@@ -1,11 +1,13 @@
 ﻿using Duckov.UI;
 using HarmonyLib;
 using ItemStatsSystem;
+using SodaCraft.Localizations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using TMPro;
 using UnityEngine;
 
 
@@ -110,6 +112,37 @@ namespace RepairFullDurability
 
             }
         }
+
+        //参考自 https://steamcommunity.com/sharedfiles/filedetails/?id=3594997475
+        [HarmonyPatch(typeof(ItemRepairView), "RefreshSelectedItemInfo")]
+        public class PatchRefreshSelectedItemInfo
+        {
+            
+            private static void Postfix(ItemRepairView __instance, ref TextMeshProUGUI ___willLoseDurabilityText)
+            {
+                Item selectedItem = ItemUIUtilities.SelectedItem;
+                float num = selectedItem.DurabilityLoss;
+                if (num > 0|| ___willLoseDurabilityText.text == "")
+                {
+                    num *= 100;
+                    ___willLoseDurabilityText.text = LocalizationManager.ToPlainText("UI_MaxDurability") + " +" + num.ToString("0.#");
+                }
+            }
+        }
+        [HarmonyPatch(typeof(ItemRepairView), "CanRepair", MethodType.Getter)]
+        public class PatchCanRepairGetter
+        {
+            [HarmonyPostfix]
+            private static void Postfix(ref bool __result)
+            {
+                Item selectedItem = ItemUIUtilities.SelectedItem;
+                if (selectedItem.DurabilityLoss > 0)
+                {
+                    __result = true;
+                }
+            }
+        }
+
 
 
     }
