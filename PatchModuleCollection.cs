@@ -160,6 +160,7 @@ namespace RepairFullDurability
                 //// 执行私有方法
                 //refreshMethod.Invoke(__instance, null);
                 Traverse.Create(__instance).Method("Refresh").GetValue(); // 调用方法,手动刷新界面
+
             }
         }
 
