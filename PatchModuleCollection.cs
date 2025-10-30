@@ -15,7 +15,6 @@ namespace RepairFullDurability
 {
     public class PatchModuleCollection
     {
-        
         [HarmonyPatch] // 标记为Harmony补丁类
         internal static class PatchItemRepairView
         {
@@ -86,6 +85,38 @@ namespace RepairFullDurability
         }
 
 
+
+
+        [HarmonyPatch(typeof(ItemRepairView), "CanRepair", MethodType.Getter)]
+        public class PatchCanRepairGetter
+        {
+            [HarmonyPostfix]
+            private static void Postfix(ref bool __result)
+            {
+                Item selectedItem = ItemUIUtilities.SelectedItem;
+                if (selectedItem.DurabilityLoss > 0)
+                {
+                    __result = true;
+                }
+            }
+        }
+        //参考自 https://steamcommunity.com/sharedfiles/filedetails/?id=3594997475
+        [HarmonyPatch(typeof(ItemRepairView), "RefreshSelectedItemInfo")]
+        public class PatchRefreshSelectedItemInfo
+        {
+
+            private static void Postfix(ref TextMeshProUGUI ___willLoseDurabilityText)
+            {
+                Item selectedItem = ItemUIUtilities.SelectedItem;
+                float num = selectedItem.DurabilityLoss;
+                if (num > 0 || ___willLoseDurabilityText.text == "")
+                {
+                    num *= 100;
+                    ___willLoseDurabilityText.text = LocalizationManager.ToPlainText("UI_MaxDurability") + " +" + num.ToString("0.#");
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(ItemRepairView), "Repair", (new Type[] { typeof(Item), typeof(bool) }))]
         public static class RepairFullDurability
         {
@@ -113,36 +144,24 @@ namespace RepairFullDurability
             }
         }
 
-        //参考自 https://steamcommunity.com/sharedfiles/filedetails/?id=3594997475
-        [HarmonyPatch(typeof(ItemRepairView), "RefreshSelectedItemInfo")]
-        public class PatchRefreshSelectedItemInfo
+        [HarmonyPatch(typeof(ItemRepair_RepairAllPanel), "OnEnable")]
+        public static class PatchItemRepair_RepairAllPanel
         {
-            
-            private static void Postfix(ItemRepairView __instance, ref TextMeshProUGUI ___willLoseDurabilityText)
+            [HarmonyPostfix]//后置补丁
+            private static void Postfix(ItemRepair_RepairAllPanel __instance)
             {
-                Item selectedItem = ItemUIUtilities.SelectedItem;
-                float num = selectedItem.DurabilityLoss;
-                if (num > 0|| ___willLoseDurabilityText.text == "")
-                {
-                    num *= 100;
-                    ___willLoseDurabilityText.text = LocalizationManager.ToPlainText("UI_MaxDurability") + " +" + num.ToString("0.#");
-                }
-            }
-        }
-        [HarmonyPatch(typeof(ItemRepairView), "CanRepair", MethodType.Getter)]
-        public class PatchCanRepairGetter
-        {
-            [HarmonyPostfix]
-            private static void Postfix(ref bool __result)
-            {
-                Item selectedItem = ItemUIUtilities.SelectedItem;
-                if (selectedItem.DurabilityLoss > 0)
-                {
-                    __result = true;
-                }
-            }
-        }
+                //// 获取私有方法信息
+                //MethodInfo refreshMethod = AccessTools.Method(
+                //    typeof(ItemRepair_RepairAllPanel),
+                //    "Refresh",
+                //    new Type[] { } // 无参数
+                //);
 
+                //// 执行私有方法
+                //refreshMethod.Invoke(__instance, null);
+                Traverse.Create(__instance).Method("Refresh").GetValue(); // 调用方法,手动刷新界面
+            }
+        }
 
 
     }
