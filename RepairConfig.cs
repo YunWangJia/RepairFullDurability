@@ -41,7 +41,7 @@ namespace RepairFullDurability
                 // 创建目录
                 Directory.CreateDirectory(Path.GetDirectoryName(ConfigPath));
                 // 写入默认配置
-                File.WriteAllText(ConfigPath, "[General]\n#为：true。时过滤装备耐久上限，为：false。关闭，修复所有耐久。\nIsOutfit = false");
+                File.WriteAllText(ConfigPath, "[General]\n#为：true时，不修复装备上限，为：false时，修复装备和武器上限。\nIsOutfit = false");
                 return false;
             }
             return true;

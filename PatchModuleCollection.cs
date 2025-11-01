@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -68,7 +69,7 @@ namespace RepairFullDurability
                 //lostAmount = repairAmount * repairLossRatio;
                 //repairAmount -= lostAmount;
 
-                repairAmount += item.MaxDurability - item.Durability;
+                repairAmount += item.MaxDurability - item.Durability;//加入红条耐久的价格
                 if (repairAmount <= 0.0)//​需维修的有效耐久​（扣除维修损耗后的值）
                 {
                     __result = 0;
@@ -90,14 +91,39 @@ namespace RepairFullDurability
         [HarmonyPatch(typeof(ItemRepairView), "CanRepair", MethodType.Getter)]
         public class PatchCanRepairGetter
         {
-            [HarmonyPostfix]
-            private static void Postfix(ref bool __result)
+            [HarmonyPrefix]
+            private static bool Prefix(ref bool __result)
             {
+                // 获取选中物品
                 Item selectedItem = ItemUIUtilities.SelectedItem;
-                if (selectedItem.DurabilityLoss > 0)
+
+                // 空值检查
+                if (selectedItem == null)
+                {
+                    __result = false;
+                    return false; // 跳过原方法
+                }
+                // 基础条件过滤
+                if (!selectedItem.UseDurability || selectedItem.MaxDurabilityWithLoss < 1f)
+                {
+                    __result = false;
+                    return false;
+                }
+                if (!selectedItem.Tags.Contains("Repairable"))
+                {
+                    Debug.Log(selectedItem.DisplayName + " 不包含tag Repairable");
+                    __result = false;
+                    return false;
+                }
+                if (selectedItem.DurabilityLoss > 0 && selectedItem.Tags.Contains("Repairable"))
                 {
                     __result = true;
+                    return false;
                 }
+
+                __result = selectedItem.Durability < selectedItem.MaxDurabilityWithLoss;
+                return false; // 表示已处理，不执行原方法
+
             }
         }
         //参考自 https://steamcommunity.com/sharedfiles/filedetails/?id=3594997475
@@ -108,13 +134,17 @@ namespace RepairFullDurability
             private static void Postfix(ref TextMeshProUGUI ___willLoseDurabilityText)
             {
                 Item selectedItem = ItemUIUtilities.SelectedItem;
-                float num = selectedItem.DurabilityLoss;
-                if (num > 0 || ___willLoseDurabilityText.text == "")
+                if(selectedItem != null)
                 {
-                    num *= 100;
-                    ___willLoseDurabilityText.text = LocalizationManager.ToPlainText("UI_MaxDurability") + " +" + num.ToString("0.#");
+                    float Loss = selectedItem.DurabilityLoss;
+                    if (Loss > 0 || ___willLoseDurabilityText.IsUnityNull())
+                    {
+                        Loss *= 100;
+                        ___willLoseDurabilityText.text = LocalizationManager.ToPlainText("UI_MaxDurability") + " +" + Loss.ToString("0.#");
+                    }
                 }
             }
+                
         }
 
         [HarmonyPatch(typeof(ItemRepairView), "Repair", (new Type[] { typeof(Item), typeof(bool) }))]
@@ -159,7 +189,9 @@ namespace RepairFullDurability
 
                 //// 执行私有方法
                 //refreshMethod.Invoke(__instance, null);
-                Traverse.Create(__instance).Method("Refresh").GetValue(); // 调用方法,手动刷新界面
+                //Traverse.Create(__instance).Method("Refresh").GetValue(); // 调用方法,手动刷新界面。解决批量维修首次打开时，显示不正常的问题
+
+                Traverse.Create(__instance).Field("needsRefresh").SetValue(true); // 设置新值
 
             }
         }

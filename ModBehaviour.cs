@@ -117,7 +117,7 @@ namespace RepairFullDurability
             ModConfigAPI.SafeAddBoolDropdownList(
                 MOD_NAME_ch,
                 "IsFilteringEquipment",
-                isChinese ? "维修是否过滤装备？" : "Filter Armor?",
+                isChinese ? "不修复装备上限？" : "Not fixing the Armor durability cap?",
                 config.IsFilteringEquipment
             );
 
