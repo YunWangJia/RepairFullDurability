@@ -32,6 +32,7 @@ namespace RepairFullDurability
         {
             // 是否显过滤装备
             public bool IsFilteringEquipment = false;
+            public bool IsFilterWeapons = false;
         }
         static RFDConfig config = new RFDConfig();
 
@@ -42,7 +43,6 @@ namespace RepairFullDurability
             // 初始化配置（不存在则创建默认）
             RepairConfig.Initialize();
 
-            //config.IsFilteringEquipment = RepairConfig.IsOutfit;
             //HarmonyLoad.Load0Harmony(); // 加载Harmony库
             ModManager.OnModActivated += OnModActivated;
 
@@ -73,9 +73,10 @@ namespace RepairFullDurability
         public void IniContrast()
         {
             LoadConfigFromModConfig();
-            if (config.IsFilteringEquipment != RepairConfig.IsOutfit)
+            if (config.IsFilteringEquipment != RepairConfig.IsOutfit || config.IsFilterWeapons != RepairConfig.IsFilterWeapons)
             {
                 config.IsFilteringEquipment = RepairConfig.IsOutfit;
+                config.IsFilterWeapons = RepairConfig.IsFilterWeapons;
                 SaveConfigFromModConfig();
                 LoadConfigFromModConfig();
             }
@@ -117,8 +118,15 @@ namespace RepairFullDurability
             ModConfigAPI.SafeAddBoolDropdownList(
                 MOD_NAME_ch,
                 "IsFilteringEquipment",
-                isChinese ? "不修复装备上限？" : "Not fixing the Armor durability cap?",
+                isChinese ? "修复装备上限" : "fixing the Armor durability cap",
                 config.IsFilteringEquipment
+            );
+            // 添加配置项2
+            ModConfigAPI.SafeAddBoolDropdownList(
+                MOD_NAME_ch,
+                "IsFilterWeapons",
+                isChinese ? "修复武器上限" : "fixing the Weapons durability cap",
+                config.IsFilterWeapons
             );
 
 
@@ -148,6 +156,7 @@ namespace RepairFullDurability
             LoadConfigFromModConfig();
 
             RepairConfig.IsOutfit = config.IsFilteringEquipment;
+            RepairConfig.IsFilterWeapons = config.IsFilterWeapons;
             // 保存到本地配置文件
             SaveConfig(config);
 
@@ -158,11 +167,13 @@ namespace RepairFullDurability
         {
             // 使用新的 LoadConfig 方法读取所有配置
             config.IsFilteringEquipment = ModConfigAPI.SafeLoad<bool>(MOD_NAME_ch, "IsFilteringEquipment", config.IsFilteringEquipment);
-            
+            config.IsFilterWeapons = ModConfigAPI.SafeLoad<bool>(MOD_NAME_ch, "IsFilterWeapons", config.IsFilterWeapons);
+
         }
         private void SaveConfigFromModConfig()
         {
             ModConfigAPI.SafeSave<bool>(MOD_NAME_ch, "IsFilteringEquipment", config.IsFilteringEquipment);
+            ModConfigAPI.SafeSave<bool>(MOD_NAME_ch, "IsFilterWeapons", config.IsFilterWeapons);
         }
 
     }

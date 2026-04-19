@@ -51,6 +51,23 @@ namespace RepairFullDurability
             [HarmonyPrefix]
             private static bool Prefix(Item item, ref float repairAmount, ref float lostAmount, ref float lostPercentage, ref int __result)
             {
+                bool isOutfit = RepairConfig.IsOutfit;//Armor
+                bool isWeapons = RepairConfig.IsFilterWeapons;
+                if (!isWeapons)//过滤时，不计算价格
+                {
+                    if (item.Tags.Contains("Weapon"))
+                    {
+                        return true;
+                    }
+                }
+                if (!isOutfit)
+                {
+                    if(item.Tags.Contains("Armor"))
+                    {
+                        return true;
+                    }
+                }
+
                 repairAmount = 0f;
                 lostAmount = 0f;//去掉这个的赋值，改变显示扣耐久提示
                 lostPercentage = 0f;
@@ -89,14 +106,14 @@ namespace RepairFullDurability
 
 
         [HarmonyPatch(typeof(ItemRepairView), "CanRepair", MethodType.Getter)]
-        public class PatchCanRepairGetter
+        public class PatchCanRepairGetter//选中物品的判断
         {
             [HarmonyPrefix]
             private static bool Prefix(ref bool __result)
             {
                 // 获取选中物品
                 Item selectedItem = ItemUIUtilities.SelectedItem;
-
+                //Debug.Log($"装备{selectedItem.DisplayName}的Tags：{string.Join(",", selectedItem.Tags)}");
                 // 空值检查
                 if (selectedItem == null)
                 {
@@ -117,8 +134,19 @@ namespace RepairFullDurability
                 }
                 if (selectedItem.DurabilityLoss > 0 && selectedItem.Tags.Contains("Repairable"))
                 {
-                    __result = true;
-                    return false;
+                    bool isOutfit = RepairConfig.IsOutfit;//equip
+                    bool isWeapons = RepairConfig.IsFilterWeapons;
+                    if (selectedItem.Tags.Contains("Weapon") && isWeapons)
+                    {
+                        __result = true;
+                        return false;
+                    }
+                    if(selectedItem.Tags.Contains("Armor") && isOutfit)
+                    {
+                        __result = true;
+                        return false;
+                    }
+                    
                 }
 
                 __result = selectedItem.Durability < selectedItem.MaxDurabilityWithLoss;
@@ -130,11 +158,29 @@ namespace RepairFullDurability
         [HarmonyPatch(typeof(ItemRepairView), "RefreshSelectedItemInfo")]
         public class PatchRefreshSelectedItemInfo
         {
-
+            //显示界面后置补丁
             private static void Postfix(ref TextMeshProUGUI ___willLoseDurabilityText)
             {
                 Item selectedItem = ItemUIUtilities.SelectedItem;
-                if(selectedItem != null)
+                //修正特殊条件下的显示
+                bool isOutfit = RepairConfig.IsOutfit;//equip
+                bool isWeapons = RepairConfig.IsFilterWeapons;
+                if (!isWeapons)
+                {
+                    if (selectedItem.Tags.Contains("Weapon"))
+                    {
+                        return;
+                    }
+                }
+                if (!isOutfit)
+                {
+                    if (selectedItem.Tags.Contains("Armor"))
+                    {
+                        return;
+                    }
+                }
+
+                if (selectedItem != null)
                 {
                     float Loss = selectedItem.DurabilityLoss;
                     if (Loss > 0 || ___willLoseDurabilityText.IsUnityNull())
@@ -156,19 +202,24 @@ namespace RepairFullDurability
             {
                 // 直接读取配置文件中的值（实时生效）
                 bool isOutfit = RepairConfig.IsOutfit;
+                bool isWeapons = RepairConfig.IsFilterWeapons;
 
-                if (isOutfit)
+                if (isWeapons)
                 {
-                    if (item.Tags.Contains("Weapon"))
+                    if (item.Tags.Contains("Weapon"))//只维修武器
                     {
                         item.DurabilityLoss = 0;
                         item.Durability = item.MaxDurability;
                     }
                 }
-                else
+                if (isOutfit)
                 {
-                    item.DurabilityLoss = 0;
-                    item.Durability = item.MaxDurability;
+                    if (item.Tags.Contains("Armor"))
+                    {
+                        item.DurabilityLoss = 0;
+                        item.Durability = item.MaxDurability;
+                    }
+
                 }
 
             }

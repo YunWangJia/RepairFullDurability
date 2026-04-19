@@ -22,12 +22,28 @@ namespace RepairFullDurability
         {
             get
             {
-                string value = ReadValue("General", "IsOutfit", "false");
-                return bool.TryParse(value, out bool result) ? result : false;
+                string value = ReadValue("General", "IsOutfit", "true");
+                return bool.TryParse(value, out bool result) ? result : true;
             }
             set
             {
                 WriteValue("General", "IsOutfit", value.ToString().ToLower());
+            }
+        }
+
+        /// <summary>
+        /// 过滤武器
+        /// </summary>
+        public static bool IsFilterWeapons
+        {
+            get
+            {
+                string value = ReadValue("General", "IsFilterWeapons", "true");
+                return bool.TryParse(value, out bool result) ? result : true;
+            }
+            set
+            {
+                WriteValue("General", "IsFilterWeapons", value.ToString().ToLower());
             }
         }
 
@@ -41,7 +57,7 @@ namespace RepairFullDurability
                 // 创建目录
                 Directory.CreateDirectory(Path.GetDirectoryName(ConfigPath));
                 // 写入默认配置
-                File.WriteAllText(ConfigPath, "[General]\n#为：true时，不修复装备上限，为：false时，修复装备和武器上限。\nIsOutfit = false");
+                File.WriteAllText(ConfigPath, "[General]\n#为：true时，修复上限，为：false时，不修上限。\nIsOutfit = true\nIsFilterWeapons = true");
                 return false;
             }
             return true;
